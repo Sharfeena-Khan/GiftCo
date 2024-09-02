@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Layout from "../core/Layout";
+import { Link } from "react-router-dom"
+import { signUp } from "../auth";
 
 import backgroundImage from "../Assets/1000_F_656034241_gxvRXuHBGkzp6rnyrFwuWmLQtYmBmelo-transformed-transformed.jpeg";
-import { click } from "@testing-library/user-event/dist/click";
+// import { click } from "@testing-library/user-event/dist/click";
 
-import {API} from "../config"
+
 
 
 
@@ -24,33 +26,19 @@ const Signup = () =>{
     setValue({...values, error:false, [name]: event.target.value} )
   }
 
-  const signUp =user=>{
-    // console.log(name, email,password);
-   return fetch(`http://localhost:8000/api/signup`, {
-      method : "POST",
-     
-    
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      
-      body : JSON.stringify(user)
-    })
-    .then(response=>{
-      return response.json()
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-    
-  }
+ 
 
   const clickSubmit = (event)=>{
     event.preventDefault()
     signUp({name,email,password})
     .then(data=>{
+      if (!data) {
+        setValue({ ...values, error: "Something went wrong. Please try again.", success: false });
+        return;
+      }
       if(data.error){
+        setValue({...values,error:data.error, success : false})
+      } else{
         setValue({
           ...values,
           name:"",
@@ -59,8 +47,15 @@ const Signup = () =>{
           error:'',
           success:true
         })
+
       }
+       
+      
     })
+    .catch((err) => {
+      console.log(err);
+      setValue({ ...values, error: "Request failed. Please try again later.", success: false });
+    });
 
   }
     const signUpForm = ()=>(
@@ -151,7 +146,7 @@ const Signup = () =>{
           </button>
         </div>
         <p className="forgot-password text-right">
-          Forgot <a href="#">password?</a>
+          Already have account, <Link to="/signin">Login here.</Link>
         </p>
 
         </div>
@@ -168,7 +163,7 @@ const Signup = () =>{
     const showSuccess = ()=>(
       
         <div className="alert alert-info" style ={{display:success ? '': 'none'}} >
-          New account is created.Please signin.
+          New account is created.Please <Link to="/signin">SignIn.</Link>
         </div>
       
     )
@@ -195,7 +190,7 @@ const Signup = () =>{
           
             
             </div>
-            { JSON.stringify(values)}
+           
        
     </Layout>
 
