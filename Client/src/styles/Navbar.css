@@ -1,0 +1,20 @@
+/* Navbar.css */
+
+/* Remove the caret (arrow) from the dropdown toggle */
+.profile-dropdown .dropdown-toggle::after {
+    display: none !important;
+  }
+  
+  /* Show dropdown on hover */
+  .profile-dropdown:hover .dropdown-menu {
+    display: block;
+  }
+  
+  /* Ensure dropdown menu doesn't hide immediately */
+  .profile-dropdown .dropdown-menu {
+    display: none;
+    margin-top: 0px;
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+  }
+  

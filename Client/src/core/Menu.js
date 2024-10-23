@@ -25,17 +25,18 @@ const Menu = ({history})=>(
     <Link className="nav-link " style={isActive(history,"/")}  to="/">Home</Link>
 </li>
 <li className="nav-item">
-    <Link className="nav-link " style={isActive(history,"/signin")} to="/signin">All Categories</Link>
+    <Link className="nav-link " style={isActive(history,"/categories")} to="/categories">All Categories</Link>
 </li>
 <li className="nav-item">
-    <Link className="nav-link " style={isActive(history,"/signup")}  to="/signup">For Him</Link>
+    <Link className="nav-link " style={isActive(history,"/for-him")}  to="/for-him">For Him</Link>
 </li>
 <li className="nav-item">
-    <Link className="nav-link "style={isActive(history,"/sign")} to="/sign">For Her</Link>
+    <Link className="nav-link "style={isActive(history,"/for-her")} to="/for-her">For Her</Link>
 </li>
 <li className="nav-item">
     <Link className="nav-link " to="/">Wanna Customise..?</Link>
 </li>
+
 {/* <li className="nav-item">
     <Link className="nav-link " to="/">Cake</Link>
 </li> */}

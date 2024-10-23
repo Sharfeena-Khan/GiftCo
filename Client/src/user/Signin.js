@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Layout from "../core/Layout";
-import {  Redirect } from "react-router-dom"
+import {  Redirect, Link } from "react-router-dom"
 // import { signin } from "../auth";
-import { signin } from '../auth';  // Remove any trailing space here
+import { signin, authenticate } from '../auth';  // Remove any trailing space here
 
 
 import backgroundImage from "../Assets/1000_F_656034241_gxvRXuHBGkzp6rnyrFwuWmLQtYmBmelo-transformed-transformed.jpeg";
@@ -38,18 +38,17 @@ const Signin = () =>{
     signin({email,password})
     .then(data=>{
       if (!data) {
-        setValue({ ...values, error: "Something went wrong. Please try again.", success: false });
+        setValue({ ...values, error: "Something went wrong. Please try again.", loading: false });
         return;
       }
       if(data.error){
         setValue({...values,error:data.error, loading : false})
       } else{
-        setValue({
-          ...values,
-         
-         
-          redirectToReferrer: true,
-
+        authenticate(data, ()=>{
+          setValue({
+            ...values,       
+            redirectToReferrer: true,
+          })
         })
 
       }
@@ -58,7 +57,7 @@ const Signin = () =>{
     })
     .catch((err) => {
       console.log(err);
-      setValue({ ...values, error: "Request failed. Please try again later.", success: false });
+      setValue({ ...values, error: "Request failed. Please try again later.", loading: false });
     });
 
   }

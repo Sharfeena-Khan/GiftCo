@@ -1,10 +1,15 @@
-import React from "react";
+import {React, Fragment} from "react";
 import { Link, withRouter } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom"
+import { Dropdown } from "react-bootstrap"
 import { IoPersonOutline } from "react-icons/io5";
 import light_logo from "../Assets/Logo/logo light-01-01.png";
 import { CiSearch } from "react-icons/ci";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
+import { CiLogout } from "react-icons/ci"
+import { signout, isAuthenticated } from "../auth"
+import '../styles/Navbar.css'
 
 // const Navbar = ()=>(
 //     <div className="nav-bg">
@@ -61,8 +66,10 @@ import { BsCart3 } from "react-icons/bs";
 //     </div>
 // )
 
-const Navbar = () => (
-  <header className=" fixed-top  " style={{marginBottom:"100px"}}>
+const Navbar = () => {
+  const history = useHistory()
+  return (
+    <header className=" fixed-top  " style={{marginBottom:"100px"}}>
     {/* desktop */}
     <div className="container-fluid ">
       <div className="row" style={{ backgroundColor: "#082E47" }}>
@@ -105,15 +112,69 @@ const Navbar = () => (
           <div className="col-lg-6 d-lg-block d-none  col-xxl-6 ">
             <div className="me-5">
               <ul className="nav justify-content-end  nav-underline gap-5 ">
-                <li className="nav-item">
-                  <Link
-                    className="nav-link fs-3 "
-                    style={{ color: "white" }}
-                    to="/"
+                
+              <li className="nav-item dropdown profile-dropdown pt-2">
+                    <span
+                      className="fs-3 dropdown-toggle"
+                      style={{
+                        backgroundColor: "transparent",
+                        border: "none",
+                        color: "white",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <IoPersonOutline style={{ color: "white" }} />
+                    </span>
+
+                    {/* Dropdown Items */}
+                    <ul className="dropdown-menu" aria-labelledby="profileDropdown">
+                     {isAuthenticated() && (
+                      <Fragment>
+                         <li>
+                        <Link className="dropdown-item" to="/profile">
+                          Profile
+                        </Link>
+                      </li>
+                      </Fragment>
+                     )}
+                    { !isAuthenticated() && (
+                      <Fragment>
+                          <li>
+                        <Link className="dropdown-item" to="/signup">
+                          Sign-Up
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to="/signin">
+                          Sign-In
+                        </Link>
+                      </li>
+                      </Fragment>
+                    )}
+                      {isAuthenticated() && (
+                      <Fragment>
+                      <li>
+                        <hr className="dropdown-divider" />
+                      </li>
+                    
+                      <li className="nav-item">
+                  <span
+                    className="nav-link fw-bold "
+                    onClick={()=>{
+                      signout(()=>{
+                        history.push("/")
+                      })
+                    }}
+                    style={{ color: "Red" , cursor : "pointer" }}
                   >
-                    <IoPersonOutline style={{ color: "white" }} />
-                  </Link>
+                    <CiLogout style={{  }} /> Logout
+                  </span>
                 </li>
+                      </Fragment>
+                     )}
+                    </ul>
+                  </li>
+               
                 <li className="nav-item">
                   <Link
                     className="nav-link fs-3 "
@@ -132,6 +193,7 @@ const Navbar = () => (
                     <BsCart3 style={{ color: "white" }} />
                   </Link>
                 </li>
+               
               </ul>
             </div>
           </div>
@@ -142,6 +204,7 @@ const Navbar = () => (
     {/* mobile */}
     
   </header>
-);
+  )
+};
 
 export default withRouter(Navbar);

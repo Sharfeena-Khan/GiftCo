@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Layout from "../core/Layout";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom/cjs/react-router-dom.min"
+
+// import { Link } from "react-router-dom"
 import { signUp } from "../auth";
 
 import backgroundImage from "../Assets/1000_F_656034241_gxvRXuHBGkzp6rnyrFwuWmLQtYmBmelo-transformed-transformed.jpeg";
