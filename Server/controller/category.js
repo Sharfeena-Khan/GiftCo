@@ -11,12 +11,13 @@ exports.create = async (req, res) => {
     res.json({
       data,
     });
-  } catch (error) {
+  } catch (error) { // Pass the `error` variable to `errorHandler`
     res.status(400).json({
-      error: errorHandler(err),
+      error: errorHandler(error),
     });
   }
 };
+
 
 exports.categoryById = async(req, res, next, id) => {
     try {
@@ -117,8 +118,10 @@ exports.cat_List = async (req, res) => {
 // SUB- CATEGORRY
 exports.create_Sub_cat = async (req, res) => {
   try {
-    const { name, categoryId } = req.body;
-    const parent_Cat = await Category.findById(categoryId);
+    const { name, category, userId } = req.body;
+    const parent_Cat = await Category.findById(category);
+    console.log(req.body);
+    
     if (!parent_Cat) {
       return res.status(400).json({
         error: "Category not found",
@@ -126,7 +129,7 @@ exports.create_Sub_cat = async (req, res) => {
     }
     const sub_CatData = new Sub_Category({
       name: name,
-      category: categoryId,
+      category: category,
     });
     await sub_CatData.save();
     parent_Cat.subcategories.push(sub_CatData._id);

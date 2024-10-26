@@ -5,6 +5,8 @@ import { Dropdown } from "react-bootstrap"
 import { IoPersonOutline } from "react-icons/io5";
 import light_logo from "../Assets/Logo/logo light-01-01.png";
 import { CiSearch } from "react-icons/ci";
+import { FiShoppingCart } from "react-icons/fi";
+import { CgProfile } from "react-icons/cg";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { BsCart3 } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci"
@@ -130,11 +132,25 @@ const Navbar = () => {
                     <ul className="dropdown-menu" aria-labelledby="profileDropdown">
                      {isAuthenticated() && (
                       <Fragment>
+                       {isAuthenticated().user.role === true ?(
+                          <li>
+                          <Link className="dropdown-item" to="/adminDashboard">
+                          <CgProfile /> Admin Dashboard
+                          </Link>
+                        </li>
+                       
+                       ) : (<>
                          <li>
                         <Link className="dropdown-item" to="/profile">
-                          Profile
+                        <CgProfile /> Profile
                         </Link>
                       </li>
+                      <li>
+                        <Link className="dropdown-item" to="/cart">
+                        <FiShoppingCart /> My Cart
+                        </Link>
+                      </li>
+                       </>)}
                       </Fragment>
                      )}
                     { !isAuthenticated() && (

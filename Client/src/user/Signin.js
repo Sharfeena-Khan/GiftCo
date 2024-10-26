@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../core/Layout";
 import {  Redirect, Link } from "react-router-dom"
 // import { signin } from "../auth";
-import { signin, authenticate } from '../auth';  // Remove any trailing space here
+import { signin, authenticate, isAuthenticated } from '../auth';  // Remove any trailing space here
 
 
 import backgroundImage from "../Assets/1000_F_656034241_gxvRXuHBGkzp6rnyrFwuWmLQtYmBmelo-transformed-transformed.jpeg";
@@ -26,6 +26,7 @@ const Signin = () =>{
       
 
   const {  email, password, loading, error, redirectToReferrer  } = values
+  const { user } = isAuthenticated()
   const handleChange = name=>event=>{
     setValue({...values, error:false, [name]: event.target.value} )
   }
@@ -159,7 +160,11 @@ const Signin = () =>{
  
     const redirectUser = () => {
         if (redirectToReferrer ) {  // Fixed typo here
+           if(user && user.role ===1){
+            return <Redirect to="/admin/dashboard" />;
+           } else{
             return <Redirect to="/" />;
+           }
         }
     };
     
